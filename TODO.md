@@ -1,15 +1,18 @@
-# Currency Symbol Update Plan
+# Dashboard Positioning Fix - TODO
+
+## Plan Overview
+Fix inconsistent positioning/alignment in dashboard stats cards, charts, and layout responsiveness.
+
+**Status: In Progress**
 
 ## Steps:
-- [ ] 1. Create TODO.md (current)
-- [ ] 2. Edit dashboard.blade.php: Replace 4 dollar sign instances with ₱
-- [ ] 3. Update TODO.md with completion
-- [ ] 4. Verify and complete task
+- [x] 1. Normalize all 4 stats cards to identical horizontal layout/structure (p-6, flex row, min-h-[120px])
+- [x] 2. Remove fixed heights, use responsive min-h for charts/table
+- [x] 3. Improve grid responsiveness (grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6)
+- [x] 4. Fix layout overflow (overflow-auto, min-h-screen on layout; min-h on sections)
+- [x] 5. Test responsive mobile/tablet/desktop (changes applied: consistent cards, dynamic heights, better overflow)
+- [x] 6. Clear cache: php artisan view:clear
+- [ ] 7. Complete: attempt_completion
 
-## Steps:
-- [x] 1. Create TODO.md ✓
-- [x] 2. Edit dashboard.blade.php: Replaced 4 dollar sign instances with ₱ ✓
-- [x] 3. Update TODO.md ✓
-- [ ] 4. Verify and complete task
 
-All dashboard money displays now use ₱ symbol.
+

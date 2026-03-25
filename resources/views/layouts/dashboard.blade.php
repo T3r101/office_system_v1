@@ -92,7 +92,7 @@
         </div>
 
         <!-- Main content -->
-        <div class="flex-1 flex flex-col overflow-hidden lg:ml-64">
+        <div class="flex-1 flex flex-col overflow-auto lg:ml-64 min-h-screen">
             <!-- Top bar -->
             <header class="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
                 <div class="flex items-center justify-between">

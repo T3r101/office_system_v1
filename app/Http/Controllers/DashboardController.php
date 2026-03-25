@@ -64,12 +64,49 @@ class DashboardController extends Controller
             $chartDataValues[] = $monthlyChart[$m] ?? 0;
         }
 
-        // Records chart data
-        $recordsChartData = [
-            'labels' => ['Total Records'],
+        // Monthly chart data
+        $monthlyChartData = [
+            'labels' => $chartLabels,
             'datasets' => [[
-                'data' => [$totalRecords],
-                'backgroundColor' => ['#3B82F6']
+                'label' => 'Amount',
+                'data' => $chartDataValues,
+                'borderColor' => 'rgb(99 102 241)',
+                'backgroundColor' => 'rgba(99 102 241, 0.1)',
+                'borderWidth' => 3,
+                'fill' => true,
+                'tension' => 0.4,
+                'pointBackgroundColor' => 'rgb(99 102 241)',
+                'pointBorderColor' => '#fff',
+                'pointHoverBackgroundColor' => '#fff',
+                'pointHoverBorderColor' => 'rgb(99 102 241)',
+                'pointRadius' => 6,
+                'pointHoverRadius' => 8
+            ]]
+        ];
+
+        // Category chart data
+        $categoryData = Record::where('user_id', $userId)
+            ->whereYear('date', Carbon::now()->year)
+            ->selectRaw('category, SUM(amount) as total')
+            ->groupBy('category')
+            ->orderBy('total', 'desc')
+            ->limit(5)
+            ->pluck('total', 'category')
+            ->toArray();
+
+        $categoryChartData = [
+            'labels' => array_keys($categoryData),
+            'datasets' => [[
+                'data' => array_values($categoryData),
+                'backgroundColor' => [
+                    'rgb(99 102 241)',
+                    'rgb(16 185 129)',
+                    'rgb(245 158 11)',
+                    'rgb(239 68 68)',
+                    'rgb(168 85 247)'
+                ],
+                'borderWidth' => 0,
+                'hoverOffset' => 4
             ]]
         ];
 
@@ -82,10 +119,9 @@ class DashboardController extends Controller
             'incomeTotal',
             'expenseTotal',
             'recentRecords',
-            'chartLabels',
-            'chartDataValues',
-            'recordsChartData'
-        ));
+            'monthlyChartData',
+            'categoryChartData'
+        )); 
     }
 }
 
