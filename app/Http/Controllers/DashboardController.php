@@ -48,6 +48,24 @@ class DashboardController extends Controller
 
 
 
+        // Monthly Activity (current year, user-scoped)
+        $monthlyActivity = DB::table('records')
+            ->where('user_id', $userId)
+            ->whereYear('created_at', Carbon::now()->year)
+            ->selectRaw('MONTH(created_at) as month, COUNT(*) as total_transactions, SUM(amount) as total_amount')
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
+
+        // Top Users (by total records count, all users)
+        $topUsers = DB::table('records')
+            ->join('users', 'records.user_id', '=', 'users.id')
+            ->selectRaw('users.name, COUNT(records.id) as total_transactions, SUM(records.amount) as total_amount')
+            ->groupBy('users.id', 'users.name')
+            ->orderByDesc('total_transactions')
+            ->limit(5)
+            ->get();
+
         return view('dashboard', compact(
             'totalRecords',
             'totalAmount',
@@ -56,8 +74,8 @@ class DashboardController extends Controller
             'totalDeposits',
             'incomeTotal',
             'expenseTotal',
-
-
+            'monthlyActivity',
+            'topUsers'
         )); 
     }
 }

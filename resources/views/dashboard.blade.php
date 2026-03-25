@@ -78,9 +78,83 @@
             </div>
         </div>
 
+        <!-- Analytics Cards Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Monthly Activity -->
+            <div class="bg-white/80 backdrop-blur-md rounded-2xl p-8 shadow-xl border border-white/50 min-h-[400px]">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-2xl font-bold text-gray-900">Monthly Activity</h3>
+                    <div class="text-sm text-gray-500 font-medium">{{ count($monthlyActivity) }} Months</div>
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-blue-600/10 rounded-2xl -m-1"></div>
+                <div class="relative overflow-x-auto">
+                    <table class="w-full divide-y divide-gray-200 text-sm">
+                        <thead class="bg-gray-50 rounded-lg">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Month</th>
+                                <th class="px-6 py-3 text-right text-xs font-bold text-gray-700 uppercase tracking-wider">Transactions</th>
+                                <th class="px-6 py-3 text-right text-xs font-bold text-gray-700 uppercase tracking-wider">Total Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            @forelse($monthlyActivity as $data)
+                                <tr class="hover:bg-gray-50 transition-colors">
+                                    <td class="px-6 py-4 font-medium text-gray-900">{{ date('F', mktime(0, 0, 0, $data->month, 10)) }}</td>
+                                    <td class="px-6 py-4 text-right text-gray-900 font-medium">{{ number_format($data->total_transactions) }}</td>
+                                    <td class="px-6 py-4 text-right">
+                                        <span class="font-bold text-green-600">₱{{ number_format($data->total_amount, 2) }}</span>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="3" class="px-6 py-12 text-center text-gray-500">No activity this year</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-
-
+            <!-- Top Users -->
+            <div class="bg-white/80 backdrop-blur-md rounded-2xl p-8 shadow-xl border border-white/50 min-h-[400px]">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-2xl font-bold text-gray-900">Top Users</h3>
+                    <div class="text-sm text-gray-500 font-medium">{{ count($topUsers) }} Users</div>
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-green-600/10 rounded-2xl -m-1"></div>
+                <div class="relative overflow-x-auto">
+                    <table class="w-full divide-y divide-gray-200 text-sm">
+                        <thead class="bg-gray-50 rounded-lg">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">User</th>
+                                <th class="px-6 py-3 text-right text-xs font-bold text-gray-700 uppercase tracking-wider">Transactions</th>
+                                <th class="px-6 py-3 text-right text-xs font-bold text-gray-700 uppercase tracking-wider">Total Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            @forelse($topUsers as $index => $user)
+                                <tr class="hover:bg-gray-50 transition-colors">
+                                    <td class="px-6 py-4 font-medium text-gray-900">
+                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 mr-2">
+                                            #{{ $index + 1 }}
+                                        </span>
+                                        {{ $user->name }}
+                                    </td>
+                                    <td class="px-6 py-4 text-right text-gray-900 font-medium">{{ number_format($user->total_transactions) }}</td>
+                                    <td class="px-6 py-4 text-right">
+                                        <span class="font-bold text-green-600">₱{{ number_format($user->total_amount, 2) }}</span>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="3" class="px-6 py-12 text-center text-gray-500">No user activity</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
     </div>
 </div>
