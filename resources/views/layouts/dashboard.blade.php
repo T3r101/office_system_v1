@@ -96,11 +96,18 @@
             <!-- Top bar -->
             <header class="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
                 <div class="flex items-center justify-between">
-                    <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-600 mr-2">
+<button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-600 mr-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                         </svg>
                     </button>
+                    
+                    <!-- Back Button -->
+                    <a href="{{ route('dashboard') }}" class="p-2 rounded-lg bg-indigo-100 hover:bg-indigo-200 text-indigo-600 transition-all hover:scale-105 mr-2" title="Back to Dashboard">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </a>
                     
                     <div class="flex items-center space-x-4 ml-auto">
                         <span class="text-sm text-gray-500">Welcome back, {{ auth()->user()->name }}!</span>

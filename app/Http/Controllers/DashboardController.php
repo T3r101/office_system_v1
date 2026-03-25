@@ -42,73 +42,11 @@ class DashboardController extends Controller
             ->sum('amount');
 
         // Recent records
-        $recentRecords = Record::where('user_id', $userId)
-            ->latest('created_at')
-            ->limit(5)
-            ->get();
 
-        // Monthly chart data
-        $monthlyChart = Record::where('user_id', $userId)
-            ->whereYear('date', Carbon::now()->year)
-            ->selectRaw('MONTH(date) as month, SUM(amount) as total')
-            ->groupBy('month')
-            ->orderBy('month')
-            ->pluck('total', 'month')
-            ->toArray();
 
-        $months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        $chartLabels = [];
-        $chartDataValues = [];
-        for ($m = 1; $m <= 12; $m++) {
-            $chartLabels[] = $months[$m-1];
-            $chartDataValues[] = $monthlyChart[$m] ?? 0;
-        }
 
-        // Monthly chart data
-        $monthlyChartData = [
-            'labels' => $chartLabels,
-            'datasets' => [[
-                'label' => 'Amount',
-                'data' => $chartDataValues,
-                'borderColor' => 'rgb(99 102 241)',
-                'backgroundColor' => 'rgba(99 102 241, 0.1)',
-                'borderWidth' => 3,
-                'fill' => true,
-                'tension' => 0.4,
-                'pointBackgroundColor' => 'rgb(99 102 241)',
-                'pointBorderColor' => '#fff',
-                'pointHoverBackgroundColor' => '#fff',
-                'pointHoverBorderColor' => 'rgb(99 102 241)',
-                'pointRadius' => 6,
-                'pointHoverRadius' => 8
-            ]]
-        ];
 
-        // Category chart data
-        $categoryData = Record::where('user_id', $userId)
-            ->whereYear('date', Carbon::now()->year)
-            ->selectRaw('category, SUM(amount) as total')
-            ->groupBy('category')
-            ->orderBy('total', 'desc')
-            ->limit(5)
-            ->pluck('total', 'category')
-            ->toArray();
 
-        $categoryChartData = [
-            'labels' => array_keys($categoryData),
-            'datasets' => [[
-                'data' => array_values($categoryData),
-                'backgroundColor' => [
-                    'rgb(99 102 241)',
-                    'rgb(16 185 129)',
-                    'rgb(245 158 11)',
-                    'rgb(239 68 68)',
-                    'rgb(168 85 247)'
-                ],
-                'borderWidth' => 0,
-                'hoverOffset' => 4
-            ]]
-        ];
 
         return view('dashboard', compact(
             'totalRecords',
@@ -118,9 +56,8 @@ class DashboardController extends Controller
             'totalDeposits',
             'incomeTotal',
             'expenseTotal',
-            'recentRecords',
-            'monthlyChartData',
-            'categoryChartData'
+
+
         )); 
     }
 }
