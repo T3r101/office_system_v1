@@ -1,0 +1,1 @@
+- [x] Step 2.1: Enable PHP extensions gd & zip in C:\xampp\php\php.ini ✓
